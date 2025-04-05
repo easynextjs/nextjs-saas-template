@@ -8,7 +8,8 @@ import { Menu, X } from "lucide-react";
 
 interface Links {
   label: string;
-  href: string;
+  href?: string;
+  onClick?: () => void;
   icon: React.JSX.Element | React.ReactNode;
 }
 
@@ -180,7 +181,8 @@ export const SidebarLink = ({
   const { open, animate } = useSidebar();
   return (
     <Link
-      href={link.href}
+      href={link.href || "#"}
+      onClick={link.onClick}
       className={cn(
         "flex items-center justify-start gap-2 group/sidebar py-2 relative",
         "px-2 rounded-lg transition-all duration-200",

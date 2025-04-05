@@ -1,8 +1,9 @@
 import { DashboardTemplate } from "@/components/templates/dashboard";
 import { createPureClient } from "@/lib/supabase/server";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { WorkspaceProvider } from "./_workspace-provider";
 import { createMainServerClient } from "@/lib/remote/main/server";
+import { checkAccessToken } from "@/lib/server/hasAccessToken";
 
 export default async function Layout({
   children,
@@ -12,6 +13,12 @@ export default async function Layout({
   params: Promise<{ workspaceId: string }>;
 }) {
   const { workspaceId } = await params;
+
+  const hasAccessToken = await checkAccessToken();
+
+  if (!hasAccessToken) {
+    return redirect("/auth/login");
+  }
 
   const apiClient = await createMainServerClient();
   const { hasPermission } = await apiClient.get<{

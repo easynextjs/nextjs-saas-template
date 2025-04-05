@@ -8,38 +8,50 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { useWorkspace } from "@/app/dashboard/[workspaceId]/_workspace-provider";
+import { deleteCookie } from "cookies-next/client";
+import { COOKIE_NAME } from "@/constants/cookie-name";
+import { useRouter } from "next/navigation";
 
 export function DashboardTemplate({ children }: { children: React.ReactNode }) {
+  const workspace = useWorkspace();
+  const router = useRouter();
+
   const links = [
     {
       label: "대시보드",
-      href: "#",
+      href: `/dashboard/${workspace.id}`,
       icon: (
         <LayoutDashboard className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
       label: "프로필",
-      href: "#",
+      href: `/dashboard/${workspace.id}/profile`,
       icon: (
         <UserCog className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
       label: "설정",
-      href: "#",
+      href: `/dashboard/${workspace.id}/settings`,
       icon: (
         <Settings className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
       label: "로그아웃",
-      href: "#",
+      href: "/",
+      onClick: () => {
+        deleteCookie(COOKIE_NAME.ACCESS_TOKEN);
+        router.push("/auth/login");
+      },
       icon: (
         <LogOut className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
   ];
+
   const [open, setOpen] = useState(false);
   return (
     <div
