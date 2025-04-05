@@ -7,15 +7,15 @@ export function LandingPage() {
     <div>
       <Header1 />
       <Hero
-        title="Build AI-powered apps in minutes, not months"
-        description="Create sophisticated AI applications with our intuitive platform. No ML expertise required."
+        title="Build SaaS apps in minutes, not months"
+        description="Create sophisticated SaaS applications with our intuitive template. No coding expertise required."
         primaryCta={{
-          text: "Start Building",
+          text: "Get Started",
           href: "/signup",
         }}
         secondaryCta={{
           text: "View on GitHub",
-          href: "https://github.com/your-ai-platform",
+          href: "https://github.com/easynextjs/easynext",
         }}
         mockupImage={{
           alt: "AI Platform Dashboard",

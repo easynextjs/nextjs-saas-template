@@ -77,7 +77,7 @@ function Header1() {
                 <NavigationMenuItem key={item.title}>
                   {item.href ? (
                     <>
-                      <NavigationMenuLink>
+                      <NavigationMenuLink href={item.href}>
                         <Button variant="ghost">{item.title}</Button>
                       </NavigationMenuLink>
                     </>
@@ -121,15 +121,16 @@ function Header1() {
           </NavigationMenu>
         </div>
         <div className="flex lg:justify-center">
-          <p className="font-semibold">TWBlocks</p>
+          {/* <p className="font-semibold">TWBlocks</p> */}
         </div>
         <div className="flex justify-end w-full gap-4">
-          <Button variant="ghost" className="hidden md:inline">
-            Book a demo
-          </Button>
           <div className="border-r hidden md:inline"></div>
-          <Button variant="outline">Sign in</Button>
-          <Button>Get started</Button>
+          <Button variant="outline" asChild>
+            <Link href="/auth/login">Sign in</Link>
+          </Button>
+          <Button asChild>
+            <Link href="/auth/register">Get started</Link>
+          </Button>
         </div>
         <div className="flex w-12 shrink lg:hidden items-end justify-end">
           <Button variant="ghost" onClick={() => setOpen(!isOpen)}>

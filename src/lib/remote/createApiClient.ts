@@ -24,7 +24,7 @@ export function createApiClient(
       );
       return response.data.data;
     },
-    post: async <Response = any>(path: string, data: any) => {
+    post: async <Response = any>(path: string, data: any = {}) => {
       const response = await axios.post<ApiResponse<Response>>(
         `${prefix}${path}`,
         data,
