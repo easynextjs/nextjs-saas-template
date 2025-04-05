@@ -1,0 +1,276 @@
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[];
+
+export type Database = {
+  public: {
+    Tables: {
+      product: {
+        Row: {
+          createdAt: string;
+          createdUserId: number;
+          id: number;
+          imageUrl: string | null;
+          name: string;
+          price: number;
+          status: Database["public"]["Enums"]["product_status"];
+          updatedAt: string;
+          workspaceId: number;
+        };
+        Insert: {
+          createdAt?: string;
+          createdUserId: number;
+          id?: number;
+          imageUrl?: string | null;
+          name: string;
+          price: number;
+          status?: Database["public"]["Enums"]["product_status"];
+          updatedAt?: string;
+          workspaceId: number;
+        };
+        Update: {
+          createdAt?: string;
+          createdUserId?: number;
+          id?: number;
+          imageUrl?: string | null;
+          name?: string;
+          price?: number;
+          status?: Database["public"]["Enums"]["product_status"];
+          updatedAt?: string;
+          workspaceId?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "product_createdUserId_fkey";
+            columns: ["createdUserId"];
+            isOneToOne: false;
+            referencedRelation: "user";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "product_workspaceId_fkey";
+            columns: ["workspaceId"];
+            isOneToOne: false;
+            referencedRelation: "workspace";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      user: {
+        Row: {
+          createdAt: string;
+          email: string;
+          id: number;
+          lastLoginAt: string | null;
+          passwordHash: string;
+          passwordSalt: string;
+          updatedAt: string;
+        };
+        Insert: {
+          createdAt?: string;
+          email: string;
+          id?: number;
+          lastLoginAt?: string | null;
+          passwordHash: string;
+          passwordSalt: string;
+          updatedAt?: string;
+        };
+        Update: {
+          createdAt?: string;
+          email?: string;
+          id?: number;
+          lastLoginAt?: string | null;
+          passwordHash?: string;
+          passwordSalt?: string;
+          updatedAt?: string;
+        };
+        Relationships: [];
+      };
+      workspace: {
+        Row: {
+          createdAt: string;
+          id: number;
+          updatedAt: string;
+          userId: number;
+        };
+        Insert: {
+          createdAt?: string;
+          id?: number;
+          updatedAt?: string;
+          userId: number;
+        };
+        Update: {
+          createdAt?: string;
+          id?: number;
+          updatedAt?: string;
+          userId?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "workspace_userId_fkey";
+            columns: ["userId"];
+            isOneToOne: false;
+            referencedRelation: "user";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      workspace_user: {
+        Row: {
+          createdAt: string;
+          id: number;
+          role: Database["public"]["Enums"]["user_role"];
+          updatedAt: string;
+          userId: number;
+          workspaceId: number;
+        };
+        Insert: {
+          createdAt?: string;
+          id?: number;
+          role: Database["public"]["Enums"]["user_role"];
+          updatedAt?: string;
+          userId: number;
+          workspaceId: number;
+        };
+        Update: {
+          createdAt?: string;
+          id?: number;
+          role?: Database["public"]["Enums"]["user_role"];
+          updatedAt?: string;
+          userId?: number;
+          workspaceId?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "workspace_user_userId_fkey";
+            columns: ["userId"];
+            isOneToOne: false;
+            referencedRelation: "user";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "workspace_user_workspaceId_fkey";
+            columns: ["workspaceId"];
+            isOneToOne: false;
+            referencedRelation: "workspace";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+    };
+    Views: {
+      [_ in never]: never;
+    };
+    Functions: {
+      [_ in never]: never;
+    };
+    Enums: {
+      product_status: "in_ready" | "sale" | "soldout" | "stop";
+      user_role: "owner" | "guest";
+    };
+    CompositeTypes: {
+      [_ in never]: never;
+    };
+  };
+};
+
+type PublicSchema = Database[Extract<keyof Database, "public">];
+
+export type Tables<
+  PublicTableNameOrOptions extends
+    | keyof (PublicSchema["Tables"] & PublicSchema["Views"])
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+        Database[PublicTableNameOrOptions["schema"]]["Views"])
+    : never = never,
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+      Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+      Row: infer R;
+    }
+    ? R
+    : never
+  : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
+        PublicSchema["Views"])
+    ? (PublicSchema["Tables"] &
+        PublicSchema["Views"])[PublicTableNameOrOptions] extends {
+        Row: infer R;
+      }
+      ? R
+      : never
+    : never;
+
+export type TablesInsert<
+  PublicTableNameOrOptions extends
+    | keyof PublicSchema["Tables"]
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Insert: infer I;
+    }
+    ? I
+    : never
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Insert: infer I;
+      }
+      ? I
+      : never
+    : never;
+
+export type TablesUpdate<
+  PublicTableNameOrOptions extends
+    | keyof PublicSchema["Tables"]
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Update: infer U;
+    }
+    ? U
+    : never
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Update: infer U;
+      }
+      ? U
+      : never
+    : never;
+
+export type Enums<
+  PublicEnumNameOrOptions extends
+    | keyof PublicSchema["Enums"]
+    | { schema: keyof Database },
+  EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
+    : never = never,
+> = PublicEnumNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
+    ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+    : never;
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof PublicSchema["CompositeTypes"]
+    | { schema: keyof Database },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof Database;
+  }
+    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
+    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+    : never;
