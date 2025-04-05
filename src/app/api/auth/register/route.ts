@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { createPureClient } from "@/lib/supabase/server";
 import { registerPayloadSchema } from "@/features/auth/schema";
-import jwt from "jsonwebtoken";
+import { createAuthToken } from "../../_utils";
 
 export async function POST(req: Request) {
   try {
@@ -56,6 +56,7 @@ export async function POST(req: Request) {
     // 기본 워크스페이스 생성
     const { error: workspaceError } = await supabase.from("workspace").insert([
       {
+        name: `${name}'s Workspace`,
         userId: newUser.id,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
@@ -68,11 +69,10 @@ export async function POST(req: Request) {
     }
 
     // JWT 토큰 생성
-    const accessToken = jwt.sign(
-      { userId: newUser.id, email: newUser.email },
-      process.env.JWT_SECRET || "your-secret-key",
-      { expiresIn: "1d" }
-    );
+    const accessToken = createAuthToken({
+      userId: newUser.id,
+      email: newUser.email,
+    });
 
     return NextResponse.json(
       {

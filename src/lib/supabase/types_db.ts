@@ -94,18 +94,21 @@ export type Database = {
         Row: {
           createdAt: string;
           id: number;
+          name: string;
           updatedAt: string;
           userId: number;
         };
         Insert: {
           createdAt?: string;
           id?: number;
+          name: string;
           updatedAt?: string;
           userId: number;
         };
         Update: {
           createdAt?: string;
           id?: number;
+          name?: string;
           updatedAt?: string;
           userId?: number;
         };

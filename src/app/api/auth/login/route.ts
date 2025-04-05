@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import { createPureClient } from "@/lib/supabase/server";
 import { loginPayloadSchema } from "@/features/auth/schema";
 import jwt from "jsonwebtoken";
+import { createAuthToken } from "../../_utils";
 
 export async function POST(req: Request) {
   try {
@@ -41,11 +42,10 @@ export async function POST(req: Request) {
       .eq("id", user.id);
 
     // JWT 토큰 생성
-    const accessToken = jwt.sign(
-      { userId: user.id, email: user.email },
-      process.env.JWT_SECRET || "your-secret-key",
-      { expiresIn: "1d" }
-    );
+    const accessToken = createAuthToken({
+      userId: user.id,
+      email: user.email,
+    });
 
     return NextResponse.json(
       {

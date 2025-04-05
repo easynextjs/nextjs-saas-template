@@ -119,6 +119,7 @@ export const publicUserRelationshipsSchemaSchema = z.tuple([]);
 export const publicWorkspaceRowSchemaSchema = z.object({
   createdAt: z.string(),
   id: z.number(),
+  name: z.string(),
   updatedAt: z.string(),
   userId: z.number(),
 });
@@ -126,6 +127,7 @@ export const publicWorkspaceRowSchemaSchema = z.object({
 export const publicWorkspaceInsertSchemaSchema = z.object({
   createdAt: z.string().optional(),
   id: z.number().optional(),
+  name: z.string(),
   updatedAt: z.string().optional(),
   userId: z.number(),
 });
@@ -133,6 +135,7 @@ export const publicWorkspaceInsertSchemaSchema = z.object({
 export const publicWorkspaceUpdateSchemaSchema = z.object({
   createdAt: z.string().optional(),
   id: z.number().optional(),
+  name: z.string().optional(),
   updatedAt: z.string().optional(),
   userId: z.number().optional(),
 });

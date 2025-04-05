@@ -21,6 +21,7 @@ CREATE INDEX idx_user_email ON "user" ("email");
 -- 워크스페이스 테이블 생성
 CREATE TABLE "workspace" (
   "id" BIGSERIAL PRIMARY KEY,
+  "name" VARCHAR(255) NOT NULL,
   "userId" BIGINT NOT NULL REFERENCES "user"("id") ON DELETE CASCADE,
   "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
   "updatedAt" TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL
