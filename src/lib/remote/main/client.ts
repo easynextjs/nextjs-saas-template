@@ -3,4 +3,6 @@ import { createApiClient } from "../createApiClient";
 import { getCookie } from "cookies-next/client";
 
 export const createMainClient = () =>
-  createApiClient("/api").bearerAuth(getCookie(COOKIE_NAME.ACCESS_TOKEN) || "");
+  createApiClient(`${process.env.NEXT_PUBLIC_URL}/api`).bearerAuth(
+    getCookie(COOKIE_NAME.ACCESS_TOKEN) || ""
+  );

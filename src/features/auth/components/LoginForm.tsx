@@ -46,7 +46,7 @@ export function LoginForm() {
       // 토큰 저장
       setCookie(COOKIE_NAME.ACCESS_TOKEN, response.accessToken);
       // 홈페이지로 리다이렉션
-      router.push("/");
+      router.push("/dashboard");
     } catch (err: any) {
       console.error("Login failed:", err);
       setError(err.response?.data?.error || "로그인 중 오류가 발생했습니다.");

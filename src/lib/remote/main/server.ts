@@ -10,5 +10,7 @@ export const createMainServerClient = async () => {
 
   console.log(token);
 
-  return createApiClient("/api").bearerAuth(token as string);
+  return createApiClient(`${process.env.NEXT_PUBLIC_URL}/api`).bearerAuth(
+    token as string
+  );
 };

@@ -54,18 +54,36 @@ export async function POST(req: Request) {
     }
 
     // 기본 워크스페이스 생성
-    const { error: workspaceError } = await supabase.from("workspace").insert([
-      {
-        name: `${name}'s Workspace`,
-        userId: newUser.id,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      },
-    ]);
+    const { data: newWorkspace, error: workspaceError } = await supabase
+      .from("workspace")
+      .insert([
+        {
+          name: `${name}'s Workspace`,
+          userId: newUser.id,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        },
+      ])
+      .select("id")
+      .single();
 
     if (workspaceError) {
       console.error("Workspace creation error:", workspaceError);
       // 워크스페이스 생성 실패해도 회원가입은 완료로 처리
+    }
+
+    const { error: workspaceUserError } = await supabase
+      .from("workspace_user")
+      .insert([
+        {
+          workspaceId: newWorkspace.id,
+          userId: newUser.id,
+          role: "owner",
+        },
+      ]);
+
+    if (workspaceUserError) {
+      console.error("Workspace user creation error:", workspaceUserError);
     }
 
     // JWT 토큰 생성
