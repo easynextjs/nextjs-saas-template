@@ -7,6 +7,7 @@ CREATE TYPE product_status AS ENUM ('in_ready', 'sale', 'soldout', 'stop');
 -- 사용자 테이블 생성
 CREATE TABLE "user" (
   "id" BIGSERIAL PRIMARY KEY,
+  "name" TEXT NOT NULL,
   "email" VARCHAR(255) NOT NULL UNIQUE,
   "passwordHash" VARCHAR(255) NOT NULL,
   "passwordSalt" VARCHAR(255) NOT NULL,

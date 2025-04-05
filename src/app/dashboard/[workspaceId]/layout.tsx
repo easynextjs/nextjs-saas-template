@@ -1,9 +1,10 @@
 import { DashboardTemplate } from "@/components/templates/dashboard";
 import { createPureClient } from "@/lib/supabase/server";
 import { notFound, redirect } from "next/navigation";
-import { WorkspaceProvider } from "./_workspace-provider";
 import { createMainServerClient } from "@/lib/remote/main/server";
 import { checkAccessToken } from "@/lib/server/hasAccessToken";
+import { Tables } from "@/lib/supabase/types_db";
+import { DashboardProvider } from "@/providers/dashboard";
 
 export default async function Layout({
   children,
@@ -17,6 +18,7 @@ export default async function Layout({
   const hasAccessToken = await checkAccessToken();
 
   if (!hasAccessToken) {
+    console.log("no access token");
     return redirect("/auth/login");
   }
 
@@ -29,20 +31,28 @@ export default async function Layout({
     return notFound();
   }
 
+  const user = await apiClient.get<Tables<"user">>("/me");
+
+  if (!user) {
+    console.log("no user");
+    return redirect("/auth/login");
+  }
+
   const supabase = await createPureClient();
-  const { data: workspace, error } = await supabase
+  const { data: workspace } = await supabase
     .from("workspace")
     .select("*")
     .eq("id", Number(workspaceId))
     .single();
 
-  if (error || !workspace) {
-    return notFound();
+  if (!workspace) {
+    console.log("no workspace");
+    return redirect("/auth/login");
   }
 
   return (
-    <WorkspaceProvider workspace={workspace}>
+    <DashboardProvider workspace={workspace} user={user}>
       <DashboardTemplate>{children}</DashboardTemplate>
-    </WorkspaceProvider>
+    </DashboardProvider>
   );
 }

@@ -35,6 +35,7 @@ export async function POST(req: Request) {
       .from("user")
       .insert([
         {
+          name,
           email,
           passwordHash,
           passwordSalt: salt,

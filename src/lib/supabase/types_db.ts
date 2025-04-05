@@ -66,6 +66,7 @@ export type Database = {
           email: string;
           id: number;
           lastLoginAt: string | null;
+          name: string;
           passwordHash: string;
           passwordSalt: string;
           updatedAt: string;
@@ -75,6 +76,7 @@ export type Database = {
           email: string;
           id?: number;
           lastLoginAt?: string | null;
+          name: string;
           passwordHash: string;
           passwordSalt: string;
           updatedAt?: string;
@@ -84,6 +86,7 @@ export type Database = {
           email?: string;
           id?: number;
           lastLoginAt?: string | null;
+          name?: string;
           passwordHash?: string;
           passwordSalt?: string;
           updatedAt?: string;

@@ -8,14 +8,16 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { useWorkspace } from "@/app/dashboard/[workspaceId]/_workspace-provider";
 import { deleteCookie } from "cookies-next/client";
 import { COOKIE_NAME } from "@/constants/cookie-name";
 import { useRouter } from "next/navigation";
+import { useUser, useWorkspace } from "@/providers/dashboard";
 
 export function DashboardTemplate({ children }: { children: React.ReactNode }) {
-  const workspace = useWorkspace();
   const router = useRouter();
+
+  const workspace = useWorkspace();
+  const user = useUser();
 
   const links = [
     {
@@ -81,7 +83,7 @@ export function DashboardTemplate({ children }: { children: React.ReactNode }) {
           <div>
             <SidebarLink
               link={{
-                label: "최고 디자이너",
+                label: user.name,
                 href: "#",
                 icon: (
                   <div className="border-2 border-brand/30 rounded-full p-[2px] shadow-sm">
@@ -105,9 +107,11 @@ export function DashboardTemplate({ children }: { children: React.ReactNode }) {
 }
 
 export const Logo = () => {
+  const workspace = useWorkspace();
+
   return (
     <Link
-      href="#"
+      href={`/dashboard/${workspace.id}`}
       className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
     >
       <div className="h-6 w-6 bg-gradient-to-br from-brand to-brand/80 dark:from-brand/90 dark:to-brand/70 rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0 shadow-md" />
@@ -116,7 +120,7 @@ export const Logo = () => {
         animate={{ opacity: 1 }}
         className="font-medium text-black dark:text-white whitespace-pre"
       >
-        디자인 랩스
+        {workspace.name}
       </motion.span>
     </Link>
   );
