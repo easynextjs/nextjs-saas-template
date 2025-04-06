@@ -57,6 +57,7 @@
     "react-hook-form": "^7",
     "react-use": "^17",
     "server-only": "0.0.1",
+    "sonner": "^2.0.3",
     "ts-pattern": "^5",
     "zod": "^3",
     "zustand": "^4"

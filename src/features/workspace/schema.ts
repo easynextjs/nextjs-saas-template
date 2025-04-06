@@ -58,3 +58,18 @@ export const removeWorkspaceUserResponseSchema = z.object({
 export type RemoveWorkspaceUserResponse = z.infer<
   typeof removeWorkspaceUserResponseSchema
 >;
+
+export const updateWorkspaceSchema = z.object({
+  workspaceId: z.number(),
+  name: z.string(),
+});
+
+export type UpdateWorkspaceRequest = z.infer<typeof updateWorkspaceSchema>;
+
+export const updateWorkspaceResponseSchema = z.object({
+  success: z.boolean(),
+});
+
+export type UpdateWorkspaceResponse = z.infer<
+  typeof updateWorkspaceResponseSchema
+>;

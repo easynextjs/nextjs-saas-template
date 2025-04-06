@@ -2,6 +2,8 @@ import { createMainClient } from "@/lib/remote/main/client";
 import {
   AddWorkspaceUserResponse,
   RemoveWorkspaceUserResponse,
+  UpdateWorkspaceRequest,
+  UpdateWorkspaceResponse,
   type AddWorkspaceUserRequest,
   type RemoveWorkspaceUserRequest,
   type WorkspaceUserListResponse,
@@ -32,5 +34,12 @@ export async function addWorkspaceUser(data: AddWorkspaceUserRequest) {
 export async function removeWorkspaceUser(data: RemoveWorkspaceUserRequest) {
   return await createMainClient().delete<RemoveWorkspaceUserResponse>(
     `/workspace/${data.workspaceId}/users/${data.workspaceUserId}`
+  );
+}
+
+export async function updateWorkspace(data: UpdateWorkspaceRequest) {
+  return await createMainClient().patch<UpdateWorkspaceResponse>(
+    `/workspace/${data.workspaceId}`,
+    data
   );
 }
