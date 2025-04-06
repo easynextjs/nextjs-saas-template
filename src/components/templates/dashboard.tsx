@@ -1,6 +1,12 @@
 "use client";
 
-import { LayoutDashboard, LogOut, Settings, UsersRound } from "lucide-react";
+import {
+  LayoutDashboard,
+  LogOut,
+  Package,
+  Settings,
+  UsersRound,
+} from "lucide-react";
 import { useState } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "../layout/sidebar";
 import { Glow } from "../ui/glow";
@@ -25,6 +31,13 @@ export function DashboardTemplate({ children }: { children: React.ReactNode }) {
       href: `/dashboard/${workspace.id}`,
       icon: (
         <LayoutDashboard className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
+      label: "제품 관리",
+      href: `/dashboard/${workspace.id}/products`,
+      icon: (
+        <Package className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
