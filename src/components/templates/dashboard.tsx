@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  LayoutDashboard,
-  LogOut,
-  Settings,
-  UserCog,
-  UsersRound,
-} from "lucide-react";
+import { LayoutDashboard, LogOut, Settings, UsersRound } from "lucide-react";
 import { useState } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "../layout/sidebar";
 import { Glow } from "../ui/glow";
@@ -38,13 +32,6 @@ export function DashboardTemplate({ children }: { children: React.ReactNode }) {
       href: `/dashboard/${workspace.id}/team`,
       icon: (
         <UsersRound className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
-      ),
-    },
-    {
-      label: "프로필",
-      href: `/dashboard/${workspace.id}/profile`,
-      icon: (
-        <UserCog className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
@@ -97,7 +84,7 @@ export function DashboardTemplate({ children }: { children: React.ReactNode }) {
             <SidebarLink
               link={{
                 label: user.name,
-                href: "#",
+                href: `/dashboard/${workspace.id}/profile`,
                 icon: (
                   <div className="border-2 border-brand/30 rounded-full p-[2px] shadow-sm">
                     <Image
